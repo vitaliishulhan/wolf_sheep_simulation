@@ -22,7 +22,7 @@ class Wolf:
         return [victim, dist_to_victim <= self.wolf_move_dist, dist_to_victim]
 
     def move(self, sheep: List[Sheep]) -> [bool, Sheep]:
-        [victim, can_be_killed, dist_to_victim] = self.look_back(sheep)
+        victim, can_be_killed, dist_to_victim = self.look_back(sheep)
 
         if can_be_killed:
             self.position.set(victim.position)
@@ -36,3 +36,6 @@ class Wolf:
         self.position.set(go_to)
 
         return [False, victim]
+
+    def __str__(self):
+        return "Wolf position: " + str(self.position)

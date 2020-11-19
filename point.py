@@ -8,4 +8,4 @@ class Point:
         self.y = point.y
 
     def __str__(self):
-        return "(" + str(self.x) + ", " + str(self.y) + ")"
+        return "(" + "%.3f" % self.x + ", " + "%.3f" % self.y + ")"

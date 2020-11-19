@@ -6,7 +6,7 @@ class Simulation:
     def __init__(self, tours_number: int, sheep_number: int, init_pos_limit: float, sheep_move_dist: float,
                  wolf_move_dist: float):
         self.tours_number = tours_number
-        self.sheep = [Sheep(init_pos_limit, sheep_move_dist) for x in range(0, sheep_number)]
+        self.sheep = [Sheep(init_pos_limit, sheep_move_dist) for x in range(sheep_number)]
         self.wolf = Wolf(wolf_move_dist)
 
     def is_not_all_killed(self) -> bool:
@@ -28,10 +28,6 @@ class Simulation:
 
         while tour != self.tours_number and self.is_not_all_killed():
             print("Tour #" + str(tour + 1))
-            print("---")
-            print("Wolf position: " + str(self.wolf.position))
-            print("Live sheep remain: " + str(self.get_live_sheep().__len__()))
-            print("---")
 
             for _sheep in self.sheep:
                 if _sheep is not None:
@@ -45,6 +41,10 @@ class Simulation:
             else:
                 print("Wolf chase the sheep #" + str(self.sheep.index(victim)))
 
+            print("---")
+            print(self.wolf)
+            print(str(self.get_live_sheep().__len__()) + " live sheep remain")
+            print("---")
             print("-------")
             tour += 1
             pass
