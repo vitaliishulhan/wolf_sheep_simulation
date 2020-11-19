@@ -1,15 +1,18 @@
-# pytest or unittest !!!
 from simulation import Simulation
-import random
-# This is a sample Python script.
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import json
+import csv
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     simulation = Simulation(50, 15, 10.0, 0.5, 1.0)
-    simulation.start_simulation()
 
+    tour_data, alive_sheep_data = simulation.start_simulation()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    with open('pos.json', 'w') as pos:
+        d = json.dumps(tour_data)
+        pos.write(d.replace('},', '},\n'))
+
+    with open('alive.csv', 'w') as alive:
+        alive_writer = csv.writer(alive)
+        alive_writer.writerow(['Rounds Number', 'Number of Live Sheep'])
+        alive_writer.writerows(alive_sheep_data)
