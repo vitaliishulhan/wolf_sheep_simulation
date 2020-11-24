@@ -38,11 +38,10 @@ class WolfTestCase(unittest.TestCase):
         wolf.position.set(Point(10, 5))
 
         self.assertEqual(wolf.look_back(sheep), [sheep[-1], False, 5.0])
-
         pass
 
     def test_moving(self):
-        sheep = [Sheep(10, 1) for x in range(3)]
+        sheep = [Sheep(10, 1) for x in range(2)]
 
         for index, _ in enumerate(sheep):
             _.position.set(Point(index + 1, index + 1))
@@ -55,9 +54,10 @@ class WolfTestCase(unittest.TestCase):
 
         self.assertEqual(wolf.move(sheep), [False, sheep[0]])
 
-        wolf.position.set(Point(2.5, 1))
+        wolf.position.set(Point(5, 2))
 
         self.assertEqual(wolf.move(sheep), [False, sheep[1]])
+        self.assertEqual([wolf.position.x, wolf.position.y], [4, 2])
 
         pass
 
