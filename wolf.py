@@ -4,13 +4,19 @@ from sheep import Sheep
 from math import sqrt
 from math import pow
 
+import logging
+
 
 class Wolf:
     def __init__(self, wolf_move_dist: float):
+        logging.debug('object initialization')
+
         self.wolf_move_dist = wolf_move_dist
         self.position = Point()
 
     def look_back(self, sheep: List[Sheep]) -> [Sheep, bool, float]:
+        logging.debug('look_back() method called')
+
         dist = []
 
         for _sheep in sheep:
@@ -22,6 +28,8 @@ class Wolf:
         return [victim, dist_to_victim <= self.wolf_move_dist, dist_to_victim]
 
     def move(self, sheep: List[Sheep]) -> [bool, Sheep]:
+        logging.debug('move() method called')
+
         victim, can_be_killed, dist_to_victim = self.look_back(sheep)
 
         if can_be_killed:
@@ -38,4 +46,6 @@ class Wolf:
         return [False, victim]
 
     def __str__(self):
-        return "Wolf position: " + str(self.position)
+        logging.debug('__str__() method called')
+
+        return "wolf position: " + str(self.position)
