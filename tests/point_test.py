@@ -22,7 +22,7 @@ class PointTestCase(unittest.TestCase):
 
     def test_str_method(self):
         p = Point(1, 2)
-        self.assertEqual(str(p), "(1, 2)")
+        self.assertEqual(str(p), "(1.000, 2.000)")
 
 
 if __name__ == '__main__':

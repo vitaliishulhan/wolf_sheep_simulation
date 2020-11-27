@@ -10,10 +10,10 @@ class SheepTestCase(unittest.TestCase):
             s = Sheep(10, 0.5)
             self.assertTrue(-10 <= s.position.x <= 10)
             self.assertTrue(-10 <= s.position.y <= 10)
-        self.assertEqual(Sheep(10, 0.5).sheep_move_dist, 0.5)
+        self.assertEqual(Sheep(10, 0.5).distance, 0.5)
 
     def test_sheep_moving(self):
-        s = Sheep(10, 1)
+        s = Sheep(10, 1.0)
         s.position.set(Point())
         side = s.move()
 

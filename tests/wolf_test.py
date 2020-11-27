@@ -10,7 +10,7 @@ from math import sqrt
 class WolfTestCase(unittest.TestCase):
     def test_init(self):
         w = Wolf(1)
-        self.assertEqual(w.wolf_move_dist, 1)
+        self.assertEqual(w.distance, 1)
         self.assertTrue(w.position.x == 0 and w.position.y == 0)
 
     def test_looking_back(self):

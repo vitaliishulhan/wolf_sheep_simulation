@@ -1,6 +1,7 @@
 from sheep import Sheep
 from wolf import Wolf
 from typing import List
+from point import Point
 from getch import getch
 import logging
 
@@ -101,5 +102,6 @@ class Simulation:
 
         logging.info('Simulation has ended')
         print('Simulation has ended')
+
         return [res_json, res_csv]
 

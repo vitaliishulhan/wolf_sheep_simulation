@@ -1,3 +1,7 @@
+#GENERALIZATION
+#GETTERS AND SETTERS
+
+
 from simulation import Simulation
 
 import json
@@ -9,7 +13,6 @@ from os import mkdir
 import os.path
 
 import logging
-
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(prog="wolf_chase_sheep_simulation")
