@@ -1,7 +1,7 @@
-from sheep import Sheep
-from wolf import Wolf
+from chase.animal import Animal
+from chase.sheep import Sheep
+from chase.wolf import Wolf
 from typing import List
-from point import Point
 from getch import getch
 import logging
 
@@ -12,7 +12,7 @@ class Simulation:
         logging.debug('object initialization')
 
         self.tours_number = tours_number
-        self.sheep = []
+        self._sheep = []
 
         for _ in range(sheep_number):
             s = Sheep(init_pos_limit, sheep_move_dist)
@@ -22,6 +22,20 @@ class Simulation:
         self.wolf = Wolf(wolf_move_dist)
         logging.info(str(self.wolf))
         self.wait = wait
+
+    @property
+    def sheep(self):
+        return self._sheep
+
+    @sheep.setter
+    def sheep(self, sheep):
+        if isinstance(sheep, List) is False:
+            raise TypeError('sheep must be a list')
+        else:
+            for _ in sheep:
+                if isinstance(_, Animal) is False:
+                    raise TypeError('sheep must include only animals')
+        self._sheep = sheep
 
     def is_not_all_killed(self) -> bool:
         logging.debug('is_not_all_killed() method called')
@@ -58,10 +72,10 @@ class Simulation:
             for _ in self.sheep:
                 if _ is not None:
                     side = _.move()
-                    logging.info('sheep #' + str(self.sheep.index(_)) + ' is moving to ' + side + '. Actual position is ' +
-                                 str(_.position))
+                    logging.info('sheep #' + str(self.sheep.index(_)) + ' is moving to ' + side +
+                                 '. Actual position is ' + str(_.position))
 
-            [sheep_was_killed, victim] = self.wolf.move(self.get_live_sheep())
+            sheep_was_killed, victim = self.wolf.move(self.get_live_sheep())
 
             if sheep_was_killed:
                 murder_message = 'sheep #' + str(self.sheep.index(victim)) + ' has been killed'

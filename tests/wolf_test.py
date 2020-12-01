@@ -1,8 +1,8 @@
 import unittest
 
-from wolf import Wolf
-from sheep import Sheep
-from point import Point
+from chase.wolf import Wolf
+from chase.sheep import Sheep
+from chase.point import Point
 
 from math import sqrt
 

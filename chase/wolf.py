@@ -1,7 +1,7 @@
-from animal import Animal
+from chase.animal import Animal
 from typing import List
-from point import Point
-from sheep import Sheep
+from chase.point import Point
+from chase.sheep import Sheep
 from math import sqrt
 from math import pow
 import logging

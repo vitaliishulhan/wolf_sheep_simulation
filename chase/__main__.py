@@ -1,8 +1,6 @@
 #GENERALIZATION
 #GETTERS AND SETTERS
-
-
-from simulation import Simulation
+from chase.simulation import Simulation
 
 import json
 import csv

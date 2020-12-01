@@ -1,7 +1,7 @@
 import unittest
 
-from sheep import Sheep
-from point import Point
+from chase.sheep import Sheep
+from chase.point import Point
 
 
 class SheepTestCase(unittest.TestCase):

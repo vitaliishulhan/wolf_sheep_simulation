@@ -1,4 +1,6 @@
-from point import Point
+from abc import abstractmethod
+
+from chase.point import Point
 import logging
 
 
@@ -13,7 +15,7 @@ class Animal:
     def position(self) -> Point:
         logging.debug('position getter called')
         return self._position
-    
+
     @position.setter
     def position(self, position: Point):
         logging.debug('position setter method called')
@@ -37,5 +39,6 @@ class Animal:
             logging.error("distance must be float")
             raise TypeError("distance must be float")
 
-    def move(self, args):
+    @abstractmethod
+    def move(self,  **attrs):
         pass

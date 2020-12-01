@@ -1,9 +1,8 @@
-from animal import Animal
+from chase.animal import Animal
 from random import uniform
 from math import floor
-from point import Point
+from chase.point import Point
 import logging
-
 
 class Sheep(Animal):
     def __init__(self, init_pos_limit: float, sheep_move_dist: float):
