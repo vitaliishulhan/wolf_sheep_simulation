@@ -9,55 +9,58 @@ import logging
 class Simulation:
     def __init__(self, tours_number: int, sheep_number: int, init_pos_limit: float, sheep_move_dist: float,
                  wolf_move_dist: float, wait: bool):
-        logging.debug('object initialization')
 
         self.tours_number = tours_number
-        self._sheep = []
+        self._animal = []
 
         for _ in range(sheep_number):
             s = Sheep(init_pos_limit, sheep_move_dist)
-            self.sheep.append(s)
-            logging.info('sheep #' + str(_) + ' start position: ' + str(self.sheep[_].position))
+            logging.info('sheep #' + str(_) + 'start position:' + str(s.position))
+            self.animal.append(s)
 
-        self.wolf = Wolf(wolf_move_dist)
+        self._wolf = Wolf(wolf_move_dist, self.animal)
         logging.info(str(self.wolf))
         self.wait = wait
 
     @property
-    def sheep(self):
-        return self._sheep
+    def animal(self):
+        return self._animal
 
-    @sheep.setter
-    def sheep(self, sheep):
-        if isinstance(sheep, List) is False:
+    @animal.setter
+    def animal(self, animal):
+        if isinstance(animal, List) is False:
             raise TypeError('sheep must be a list')
         else:
-            for _ in sheep:
+            for _ in animal:
                 if isinstance(_, Animal) is False:
-                    raise TypeError('sheep must include only animals')
-        self._sheep = sheep
+                    raise TypeError('animal must include only Animals')
+        self._animal = animal
+
+    @property
+    def wolf(self):
+        return self._wolf
+
+    @wolf.setter
+    def wolf(self, wolf):
+        if isinstance(wolf, Wolf) is False:
+            raise TypeError("wolf must be Wolf class object")
+        self._wolf = wolf
 
     def is_not_all_killed(self) -> bool:
-        logging.debug('is_not_all_killed() method called')
-
         num_killed = 0
-        for _sheep in self.sheep:
-            if _sheep is None:
+        for _animal in self.animal:
+            if _animal is None:
                 num_killed += 1
-        return num_killed != self.sheep.__len__()
+        return num_killed != len(self.animal)
 
-    def get_live_sheep(self):
-        logging.debug('get_live_sheep() method called')
-
+    def get_live_animals(self):
         res = []
-        for _sheep in self.sheep:
-            if _sheep is not None:
-                res.append(_sheep)
+        for _animal in self.animal:
+            if _animal is not None:
+                res.append(_animal)
         return res
 
     def start_simulation(self) -> [List, List]:
-        logging.debug('start_simulation() method called')
-
         res_json = []
         res_csv = []
         tour = 0
@@ -69,45 +72,34 @@ class Simulation:
             logging.info('tour#' + str(tour) + 'has started')
             print("Tour #" + str(tour))
 
-            for _ in self.sheep:
+            for _ in self.animal:
                 if _ is not None:
-                    side = _.move()
-                    logging.info('sheep #' + str(self.sheep.index(_)) + ' is moving to ' + side +
-                                 '. Actual position is ' + str(_.position))
+                    logging.info('sheep #' + str(self.animal.index(_)) + ' is moving')
+                    _.move()
+                    logging.info('Actual position is' + str(_.position))
 
-            sheep_was_killed, victim = self.wolf.move(self.get_live_sheep())
-
-            if sheep_was_killed:
-                murder_message = 'sheep #' + str(self.sheep.index(victim)) + ' has been killed'
-                logging.info(murder_message)
-                print(murder_message)
-                self.sheep[self.sheep.index(victim)] = None
-            else:
-                chase_message = 'wolf is chasing the sheep #' + str(self.sheep.index(victim))
-                logging.info(chase_message)
-                print(chase_message)
-
+            self.wolf.move()
 
             print("---")
             print(self.wolf)
-            live_message = str(self.get_live_sheep().__len__()) + ' live sheep remain'
+            live_message = str(len(self.get_live_animals())) + ' live animals remain'
             logging.info(live_message)
             print(live_message)
             print("---")
             print("-------")
 
-            sheep_positions = []
+            animal_positions = []
 
-            for _ in self.sheep:
-                sheep_positions.append([_.position.x, _.position.y] if _ is not None else None)
+            for _ in self.animal:
+                animal_positions.append([_.position.x, _.position.y] if _ is not None else None)
 
             res_json.append({
                 'round_no': tour,
                 'wolf_pos': [self.wolf.position.x, self.wolf.position.y],
-                'sheep_pos':  sheep_positions
+                'sheep_pos':  animal_positions
             })
 
-            res_csv.append([tour, len(self.get_live_sheep())])
+            res_csv.append([tour, len(self.get_live_animals())])
 
             tour += 1
 

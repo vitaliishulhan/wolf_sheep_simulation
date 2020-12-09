@@ -1,5 +1,3 @@
-#GENERALIZATION
-#GETTERS AND SETTERS
 from chase.simulation import Simulation
 
 import json
@@ -9,6 +7,8 @@ import argparse
 from configparser import ConfigParser
 from os import mkdir
 import os.path
+
+from chase.sheep import Sheep
 
 import logging
 

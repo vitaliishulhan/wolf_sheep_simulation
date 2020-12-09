@@ -3,19 +3,15 @@ import logging
 
 class Point:
     def __init__(self, x: float = 0, y: float = 0):
-        logging.debug('object initialization')
-
         self._x = x
         self._y = y
 
     @property
     def x(self):
-        logging.debug('x getter method called')
         return self._x
 
     @x.setter
     def x(self, x: float):
-        logging.debug('x setter method called')
         if isinstance(x, float):
             self._x = x
         else:
@@ -24,12 +20,10 @@ class Point:
 
     @property
     def y(self) -> float:
-        logging.debug('y getter method called')
         return self._y
 
     @y.setter
     def y(self, y: float):
-        logging.debug('y setter method called')
         if isinstance(y, float):
             self._y = y
         else:
@@ -37,10 +31,14 @@ class Point:
             raise TypeError('y must be float')
 
     def set(self, point):
-        logging.debug('set() method called')
+        logging.debug('set() method called, point:' + str(point))
         self._x = point.x
         self._y = point.y
 
+    def __add__(self, other):
+        self._x += other.x
+        self._y += other.y
+        return self
+
     def __str__(self):
-        logging.debug('__str__() method called')
         return "(" + "%.3f" % self._x + ", " + "%.3f" % self._y + ")"

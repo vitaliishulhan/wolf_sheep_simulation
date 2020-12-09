@@ -4,7 +4,7 @@ with open('chase/README.md', 'r') as fh:
 
 setuptools.setup(
     name="chase",
-    version="",
+    version="1.0.0",
     author="Vitalii Shulhan 226454",
     author_email="226454@edu.p.lodz.pl",
     description="simulation how wolf hunts for sheep",

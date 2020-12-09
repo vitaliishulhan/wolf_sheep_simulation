@@ -1,49 +1,51 @@
 from chase.animal import Animal
-from typing import List
+from typing import List, Tuple
 from chase.point import Point
-from chase.sheep import Sheep
-from math import sqrt
-from math import pow
+from math import sqrt, pow
 import logging
 
 
 class Wolf(Animal):
-    def __init__(self, wolf_move_dist: float):
-        logging.debug('object initialization')
+    def __init__(self, wolf_move_dist: float, animal: List[Animal]):
         super().__init__(Point(), wolf_move_dist)
+        self.animal = animal
 
-    def look_back(self, sheep: List[Sheep]) -> [Sheep, bool, float]:
-        logging.debug('look_back() method called')
-
+    def look_back(self, animal: List[Animal]) -> Tuple[Animal, bool, float]:
         dist = []
-
-        for _sheep in sheep:
-            dist.append(sqrt(pow(self.position.x - _sheep.position.x, 2) + pow(self.position.y - _sheep.position.y, 2)))
+        live_animals = []
+        for _animal in animal:
+            if _animal is not None:
+                live_animals.append(_animal)
+                dist.append(sqrt(
+                    pow(self.position.x - _animal.position.x, 2) +
+                    pow(self.position.y - _animal.position.y, 2)
+                ))
 
         dist_to_victim = min(dist)
-        victim = sheep[dist.index(dist_to_victim)]
+        victim = live_animals[dist.index(dist_to_victim)]
 
-        return [victim, dist_to_victim <= self.distance, dist_to_victim]
+        return victim, dist_to_victim <= self.distance, dist_to_victim
 
-    def move(self, sheep: List[Animal]) -> [bool, Animal]:
-        logging.debug('move() method called')
+    def update_distance(self) -> Point:
 
-        victim, can_be_killed, dist_to_victim = self.look_back(sheep)
+        victim, can_be_killed, dist_to_victim = self.look_back(self.animal)
 
         if can_be_killed:
+            murder_message = f'animal #{self.animal.index(victim)} has been killed'
+            logging.info(murder_message)
+            print(murder_message)
             self.position.set(victim.position)
-            return [True, victim]
+            self.animal[self.animal.index(victim)] = None
+            return Point()
+
+        chase_message = f'wolf is chasing the animal #{self.animal.index(victim)}'
+        logging.info(chase_message)
+        print(chase_message)
 
         relation = self.distance / (dist_to_victim - self.distance)
 
-        go_to = Point((self.position.x + relation * victim.position.x) / (1 + relation),
-                      (self.position.y + relation * victim.position.y) / (1 + relation))
-
-        self.position.set(go_to)
-
-        return [False, victim]
+        return Point(relation*(victim.position.x - self.position.x) / (1 + relation),
+                     relation*(victim.position.y - self.position.y) / (1 + relation))
 
     def __str__(self):
-        logging.debug('__str__() method called')
-
-        return "wolf position: " + str(self.position)
+        return f'wolf position: {str(self.position)}'
